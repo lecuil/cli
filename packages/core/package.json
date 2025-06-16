@@ -21,5 +21,6 @@
   },
   "dependencies": {
     "es-toolkit": "^1.39.3"
-  }
+  },
+  "gitHead": "8e8135356c8505464c583cf50f62bbe821b7feb4"
 }
