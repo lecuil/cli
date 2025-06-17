@@ -7,6 +7,7 @@ import log from '@lecuil-cli/log'
 import rootCheck from 'root-check'
 import { homedir } from 'os'
 import { existsSync } from 'fs'
+import minimist from 'minimist'
 
 const pkg = await import('../package.json', { with: { type: 'json' } })
 
@@ -28,9 +29,25 @@ const checkRoot = () => {
 
 const checkUserHome = () => {
   const userHome = homedir()
-  if (userHome || !existsSync(userHome)) {
+  if (!userHome || !existsSync(userHome)) {
     throw new Error(colors.red('当前用户主目录不存在'))
   }
+}
+
+const checkInputArgs = () => {
+  log.verbose('开始校验输入参数')
+  const args = minimist(process.argv.slice(2)) // 解析查询参数
+  checkArgs(args) // 校验参数
+  log.verbose('输入参数', args)
+}
+
+const checkArgs = (args) => {
+  if (args.debug) {
+    process.env.LOG_LEVEL = 'verbose'
+  } else {
+    process.env.LOG_LEVEL = 'info'
+  }
+  log.level = process.env.LOG_LEVEL
 }
 
 const core = () => {
@@ -39,6 +56,7 @@ const core = () => {
     checkNodeVersion()
     checkRoot()
     checkUserHome()
+    checkInputArgs()
   } catch (e) {
     log.error(e.message)
   }
