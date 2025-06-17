@@ -5,6 +5,8 @@ import semver from 'semver'
 import colors from 'colors'
 import log from '@lecuil-cli/log'
 import rootCheck from 'root-check'
+import { homedir } from 'os'
+import { existsSync } from 'fs'
 
 const pkg = await import('../package.json', { with: { type: 'json' } })
 
@@ -24,13 +26,20 @@ const checkRoot = () => {
   rootCheck(colors.red('请避免使用 root 账户启动本应用'))
 }
 
+const checkUserHome = () => {
+  const userHome = homedir()
+  if (userHome || !existsSync(userHome)) {
+    throw new Error(colors.red('当前用户主目录不存在'))
+  }
+}
+
 const core = () => {
   try {
     checkPkgVersion()
     checkNodeVersion()
     checkRoot()
+    checkUserHome()
   } catch (e) {
-    console.error(e)
     log.error(e.message)
   }
 }
