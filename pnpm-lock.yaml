@@ -35,6 +35,9 @@ importers:
       npmlog:
         specifier: ^7.0.1
         version: 7.0.1
+      root-check:
+        specifier: ^2.0.0
+        version: 2.0.0
       semver:
         specifier: ^7.7.2
         version: 7.7.2
@@ -45,15 +48,9 @@ importers:
 
   utils/log:
     dependencies:
-      colors:
-        specifier: ^1.4.0
-        version: 1.4.0
       npmlog:
         specifier: ^7.0.1
         version: 7.0.1
-      semver:
-        specifier: ^7.7.2
-        version: 7.7.2
 
   utils/utils:
     dependencies:
@@ -690,6 +687,10 @@ packages:
       babel-plugin-macros:
         optional: true
 
+  default-uid@2.0.0:
+    resolution: {integrity: sha512-aMYTP7vinmUN/dR5n9JUNCB85jy+N+41jx53lMzR6DyGE6NeVPIxCPGbWjDYVNjz6Ei8C9hyeYAfuxVOe3UdsQ==}
+    engines: {node: '>=12'}
+
   defaults@1.0.4:
     resolution: {integrity: sha512-eFuaLoy/Rxalv2kr+lqMlUnrDWV+3j4pljOIJgLIhI058IQfWJ7vXhyEIHu+HtC738klGALYxOKDO0bQP3tg8A==}
 
@@ -726,6 +727,10 @@ packages:
 
   dotenv@16.4.7:
     resolution: {integrity: sha512-47qPchRCykZC03FhkYAhrvwU4xDBFIj1QPqaarj6mdM/hgUzfPHcpkHJOn3mJAufFeeAxAzeGsr5X0M4k6fLZQ==}
+    engines: {node: '>=12'}
+
+  downgrade-root@2.0.0:
+    resolution: {integrity: sha512-tke0knZzG76FThh9diBex027u3qsoXv6PKZDva1fsEuqlzlstkcyoJgdHE/wQc2nBU1rnUcmhMUnQA3gucXc0Q==}
     engines: {node: '>=12'}
 
   dunder-proto@1.0.1:
@@ -1138,6 +1143,10 @@ packages:
   is-plain-object@2.0.4:
     resolution: {integrity: sha512-h5PpgXkWitc38BBMYawTYMWJHFZJVnBquFE57xFpjB8pJFiF6gZ+bU+WyI/yqXiFR5mdLsgYNaPe8uao6Uv9Og==}
     engines: {node: '>=0.10.0'}
+
+  is-root@3.0.0:
+    resolution: {integrity: sha512-C13bL54yQdgniduW8KFe81ttgQINcwMgil/zyNuDzr/xjIyDMkcvcc9dON62RH9VBAHOI7le+lTo/U3PY3irwg==}
+    engines: {node: '>=12'}
 
   is-ssh@1.4.1:
     resolution: {integrity: sha512-JNeu1wQsHjyHgn9NcWTaXq6zWSR6hqE0++zhfZlkFBbScNkyvxCdeV8sRkSBaeLKxmbpR21brail63ACNxJ0Tg==}
@@ -1833,6 +1842,10 @@ packages:
     engines: {node: '>=14'}
     hasBin: true
 
+  root-check@2.0.0:
+    resolution: {integrity: sha512-r9sl0ZLw27mJHTluboMNs345zqeRkIEthbrK2/1pSnl86XZGrNh58X4LqlS8EIViuOxZzjjvSoeIa7Q7OegrMA==}
+    engines: {node: '>=12'}
+
   run-async@2.4.1:
     resolution: {integrity: sha512-tvVnVv01b8c1RrA6Ep7JkStj85Guv/YrMcwqYQnwjsAS2cTmmPGBBjAjpCW7RrSodNSoE2/qg9O4bceNvUuDgQ==}
     engines: {node: '>=0.12.0'}
@@ -1981,6 +1994,10 @@ packages:
     resolution: {integrity: sha512-B3Hgul+z0L9a236FAUC9iZsL+nVHgoCJnqCbN588DjYxvGXaXaaFbfmQ/JhvKjZwsOukuR72XbHv71Qkug0HxA==}
     engines: {node: '>=4'}
     hasBin: true
+
+  sudo-block@4.0.0:
+    resolution: {integrity: sha512-bjCE4CcLPEX7K9aCOc9Z4iyNmi1bgEcjS11DU20IbhjxiY2CHwxP7Dy+JlXlGHRq47+wmVr8zmixfELWq+hKBQ==}
+    engines: {node: '>=12'}
 
   supports-color@7.2.0:
     resolution: {integrity: sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==}
@@ -2969,6 +2986,8 @@ snapshots:
 
   dedent@1.5.3: {}
 
+  default-uid@2.0.0: {}
+
   defaults@1.0.4:
     dependencies:
       clone: 1.0.4
@@ -2996,6 +3015,11 @@ snapshots:
       dotenv: 16.4.7
 
   dotenv@16.4.7: {}
+
+  downgrade-root@2.0.0:
+    dependencies:
+      default-uid: 2.0.0
+      is-root: 3.0.0
 
   dunder-proto@1.0.1:
     dependencies:
@@ -3428,6 +3452,8 @@ snapshots:
   is-plain-object@2.0.4:
     dependencies:
       isobject: 3.0.1
+
+  is-root@3.0.0: {}
 
   is-ssh@1.4.1:
     dependencies:
@@ -4279,6 +4305,11 @@ snapshots:
     dependencies:
       glob: 9.3.5
 
+  root-check@2.0.0:
+    dependencies:
+      downgrade-root: 2.0.0
+      sudo-block: 4.0.0
+
   run-async@2.4.1: {}
 
   run-parallel@1.2.0:
@@ -4422,6 +4453,12 @@ snapshots:
       duplexer: 0.1.2
       minimist: 1.2.8
       through: 2.3.8
+
+  sudo-block@4.0.0:
+    dependencies:
+      chalk: 4.1.2
+      is-docker: 2.2.1
+      is-root: 3.0.0
 
   supports-color@7.2.0:
     dependencies:
