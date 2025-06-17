@@ -26,6 +26,9 @@ importers:
       colors:
         specifier: ^1.4.0
         version: 1.4.0
+      dotenv:
+        specifier: ^16.5.0
+        version: 16.5.0
       es-toolkit:
         specifier: ^1.39.3
         version: 1.39.3
@@ -730,6 +733,10 @@ packages:
 
   dotenv@16.4.7:
     resolution: {integrity: sha512-47qPchRCykZC03FhkYAhrvwU4xDBFIj1QPqaarj6mdM/hgUzfPHcpkHJOn3mJAufFeeAxAzeGsr5X0M4k6fLZQ==}
+    engines: {node: '>=12'}
+
+  dotenv@16.5.0:
+    resolution: {integrity: sha512-m/C+AwOAr9/W1UOIZUo232ejMNnJAJtYQjUbHoNTBNTJSvqzzDh7vnrei3o3r3m9blf6ZoDkvcw0VmozNRFJxg==}
     engines: {node: '>=12'}
 
   downgrade-root@2.0.0:
@@ -3018,6 +3025,8 @@ snapshots:
       dotenv: 16.4.7
 
   dotenv@16.4.7: {}
+
+  dotenv@16.5.0: {}
 
   downgrade-root@2.0.0:
     dependencies:

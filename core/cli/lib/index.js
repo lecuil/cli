@@ -8,8 +8,13 @@ import rootCheck from 'root-check'
 import { homedir } from 'os'
 import { existsSync } from 'fs'
 import minimist from 'minimist'
+import dotenv from 'dotenv'
+import path from 'path'
 
 const pkg = await import('../package.json', { with: { type: 'json' } })
+const userHome = homedir()
+
+const { DEFAULT_CLI_HOME } = constant
 
 const checkPkgVersion = () => {
   log.info('cli', pkg.default.version)
@@ -28,7 +33,6 @@ const checkRoot = () => {
 }
 
 const checkUserHome = () => {
-  const userHome = homedir()
   if (!userHome || !existsSync(userHome)) {
     throw new Error(colors.red('当前用户主目录不存在'))
   }
@@ -50,6 +54,28 @@ const checkArgs = (args) => {
   log.level = process.env.LOG_LEVEL
 }
 
+const checkEnv = () => {
+  log.verbose('开始检查环境变量')
+  const envPath = path.resolve(userHome, '.env')
+  dotenv.config({
+    path: envPath,
+  })
+  const config = createCliConfig() // 准备基础配置
+  log.verbose('环境变量', config)
+}
+
+const createCliConfig = () => {
+  const cliConfig = {
+    home: userHome,
+  }
+  if (process.env.CLI_HOME) {
+    cliConfig['cliHome'] = path.join(userHome, process.env.CLI_HOME)
+  } else {
+    cliConfig['cliHome'] = path.join(userHome, DEFAULT_CLI_HOME)
+  }
+  return cliConfig
+}
+
 const core = () => {
   try {
     checkPkgVersion()
@@ -57,6 +83,7 @@ const core = () => {
     checkRoot()
     checkUserHome()
     checkInputArgs()
+    checkEnv()
   } catch (e) {
     log.error(e.message)
   }
