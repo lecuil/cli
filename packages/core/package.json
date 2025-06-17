@@ -17,7 +17,7 @@
     "lib"
   ],
   "publishConfig": {
-    "registry": "https://registry.npmmirror.com/"
+    "access": "public"
   },
   "scripts": {
     "test": "node ./__tests__/core.test.js"
@@ -25,5 +25,5 @@
   "dependencies": {
     "es-toolkit": "^1.39.3"
   },
-  "gitHead": "be14a38e753a938bc16e2be27931aabac4fdb742"
+  "gitHead": "f7ebb793eaf1d6d8013e315421970d7ba84c707f"
 }
