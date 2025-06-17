@@ -1,4 +1,3 @@
-'use strict'
 import log from 'npmlog'
 
 log.level = process.env.LOG_LEVEL || 'info'

@@ -22,7 +22,7 @@ importers:
         version: link:../../utils/log
       '@lecuil-cli/utils':
         specifier: workspace:*
-        version: link:../../utils/utils
+        version: link:../../packages/utils
       colors:
         specifier: ^1.4.0
         version: 1.4.0
@@ -52,17 +52,20 @@ importers:
         specifier: ^7.0.0
         version: 7.0.0
 
+  packages/utils:
+    dependencies:
+      es-toolkit:
+        specifier: ^1.39.3
+        version: 1.39.3
+      npmlog:
+        specifier: ^7.0.1
+        version: 7.0.1
+
   utils/log:
     dependencies:
       npmlog:
         specifier: ^7.0.1
         version: 7.0.1
-
-  utils/utils:
-    dependencies:
-      es-toolkit:
-        specifier: ^1.39.3
-        version: 1.39.3
 
 packages:
 

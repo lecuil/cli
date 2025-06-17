@@ -3,3 +3,4 @@ packages:
   - 'utils/*'
   - 'models/*'
   - 'commands/*'
+  - 'packages/*'

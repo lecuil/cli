@@ -1,11 +1,12 @@
 {
   "name": "@lecuil-cli/utils",
   "version": "0.0.1",
+  "type": "module",
   "description": "lecuil-cli utils",
   "author": "facil <13183817938@163.com>",
   "homepage": "",
   "license": "ISC",
-  "main": "lib/utils.js",
+  "main": "index.js",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -20,7 +21,8 @@
     "test": "node ./__tests__/utils.test.js"
   },
   "dependencies": {
-    "es-toolkit": "^1.39.3"
+    "es-toolkit": "^1.39.3",
+    "npmlog": "^7.0.1"
   },
   "gitHead": "f7ebb793eaf1d6d8013e315421970d7ba84c707f"
 }

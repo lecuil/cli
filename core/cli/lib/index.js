@@ -3,7 +3,7 @@
 import constant from './constant.js'
 import semver from 'semver'
 import colors from 'colors'
-import log from '@lecuil-cli/log'
+import { log } from '@lecuil-cli/utils'
 import rootCheck from 'root-check'
 import { homedir } from 'os'
 import { existsSync } from 'fs'
@@ -13,7 +13,6 @@ import path from 'path'
 
 const pkg = await import('../package.json', { with: { type: 'json' } })
 const userHome = homedir()
-
 const { DEFAULT_CLI_HOME } = constant
 
 const checkPkgVersion = () => {
