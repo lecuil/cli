@@ -5,7 +5,8 @@
   "author": "facil <13183817938@163.com>",
   "homepage": "",
   "license": "ISC",
-  "main": "lib/core.js",
+  "main": "lib/index.js",
+  "type": "module",
   "bin": {
     "cli-dev": "bin/index.js"
   },
@@ -20,10 +21,17 @@
     "access": "public"
   },
   "scripts": {
-    "test": "node ./__tests__/core.test.js"
+    "test": "node ./__tests__/core.test.js",
+    "dev": "cli-dev"
   },
   "dependencies": {
-    "es-toolkit": "^1.39.3"
+    "@lecuil-cli/utils": "workspace:*",
+    "es-toolkit": "^1.39.3",
+    "import-local": "^3.2.0",
+    "npmlog": "^7.0.1"
   },
-  "gitHead": "f7ebb793eaf1d6d8013e315421970d7ba84c707f"
+  "gitHead": "f7ebb793eaf1d6d8013e315421970d7ba84c707f",
+  "devDependencies": {
+    "@types/npmlog": "^7.0.0"
+  }
 }
