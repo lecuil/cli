@@ -3,7 +3,7 @@
 import constant from './constant.js'
 import semver from 'semver'
 import colors from 'colors'
-import { log } from '@lecuil-cli/utils'
+import { getNpmInfo, getNpmSemverVersions, getNpmVersions, log } from '@lecuil-cli/utils'
 import rootCheck from 'root-check'
 import { homedir } from 'os'
 import { existsSync } from 'fs'
@@ -11,12 +11,12 @@ import minimist from 'minimist'
 import dotenv from 'dotenv'
 import path from 'path'
 
-const pkg = await import('../package.json', { with: { type: 'json' } })
+const pkg = (await import('../package.json', { with: { type: 'json' } })).default
 const userHome = homedir()
 const { DEFAULT_CLI_HOME } = constant
 
 const checkPkgVersion = () => {
-  log.info('cli', pkg.default.version)
+  log.info('cli', pkg.version)
 }
 
 const checkNodeVersion = () => {
@@ -75,6 +75,15 @@ const createCliConfig = () => {
   return cliConfig
 }
 
+const checkGlobalUpdate = async () => {
+  const curVersion = pkg.version
+  const npmName = pkg.name
+  const newVersion = await getNpmSemverVersions(curVersion, npmName)
+  if (newVersion && semver.gt(newVersion, curVersion)) {
+    log.warn(colors.yellow(`当前版本为 ${curVersion}, 最新版本为 ${newVersion}`))
+  }
+}
+
 const core = () => {
   try {
     checkPkgVersion()
@@ -83,6 +92,7 @@ const core = () => {
     checkUserHome()
     checkInputArgs()
     checkEnv()
+    checkGlobalUpdate()
   } catch (e) {
     log.error(e.message)
   }

@@ -25,7 +25,6 @@
     "dev": "cli-dev"
   },
   "dependencies": {
-    "@lecuil-cli/log": "workspace:*",
     "@lecuil-cli/utils": "workspace:*",
     "colors": "^1.4.0",
     "dotenv": "^16.5.0",

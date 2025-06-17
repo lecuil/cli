@@ -1,6 +1,5 @@
 packages:
   - 'core/*'
-  - 'utils/*'
   - 'models/*'
   - 'commands/*'
   - 'packages/*'

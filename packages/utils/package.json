@@ -22,7 +22,8 @@
   },
   "dependencies": {
     "es-toolkit": "^1.39.3",
-    "npmlog": "^7.0.1"
+    "npmlog": "^7.0.1",
+    "semver": "^7.7.2"
   },
   "gitHead": "f7ebb793eaf1d6d8013e315421970d7ba84c707f"
 }

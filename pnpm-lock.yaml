@@ -17,9 +17,6 @@ importers:
 
   core/cli:
     dependencies:
-      '@lecuil-cli/log':
-        specifier: workspace:*
-        version: link:../../utils/log
       '@lecuil-cli/utils':
         specifier: workspace:*
         version: link:../../packages/utils
@@ -60,6 +57,9 @@ importers:
       npmlog:
         specifier: ^7.0.1
         version: 7.0.1
+      semver:
+        specifier: ^7.7.2
+        version: 7.7.2
 
   utils/log:
     dependencies:
