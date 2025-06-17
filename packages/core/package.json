@@ -1,6 +1,6 @@
 {
   "name": "@lecuil-cli/core",
-  "version": "1.0.3",
+  "version": "0.0.0",
   "description": "lecuil-cli core",
   "author": "facil <13183817938@163.com>",
   "homepage": "",
@@ -25,5 +25,5 @@
   "dependencies": {
     "es-toolkit": "^1.39.3"
   },
-  "gitHead": "8e8135356c8505464c583cf50f62bbe821b7feb4"
+  "gitHead": "ba0654a376e7a711c30cab7d2178146c38872f17"
 }

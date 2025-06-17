@@ -1,6 +1,6 @@
 {
   "name": "lecuil-cli",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "lecuil cli",
   "main": "index.js",
   "scripts": {
