@@ -32,7 +32,6 @@
     "dotenv": "^16.5.0",
     "es-toolkit": "^1.39.3",
     "import-local": "^3.2.0",
-    "minimist": "^1.2.8",
     "npmlog": "^7.0.1",
     "root-check": "^2.0.0",
     "semver": "^7.7.2"
