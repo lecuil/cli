@@ -15,8 +15,13 @@ importers:
         specifier: ^8.2.2
         version: 8.2.2(encoding@0.1.13)
 
+  commands/init: {}
+
   core/cli:
     dependencies:
+      '@lecuil-cli/init':
+        specifier: workspace:*
+        version: link:../../commands/init
       '@lecuil-cli/utils':
         specifier: workspace:*
         version: link:../../packages/utils

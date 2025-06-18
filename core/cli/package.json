@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@lecuil-cli/utils": "workspace:*",
+    "@lecuil-cli/init": "workspace:*",
     "colors": "^1.4.0",
     "commander": "^14.0.0",
     "dotenv": "^16.5.0",

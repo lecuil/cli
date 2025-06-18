@@ -11,6 +11,7 @@ import path from 'path'
 import rootCheck from 'root-check'
 import semver from 'semver'
 import constant from './constant.js'
+import { init } from '@lecuil-cli/init'
 
 const pkg = (await import('../package.json', { with: { type: 'json' } })).default
 const userHome = homedir()
@@ -93,6 +94,8 @@ const registerCommand = () => {
     .usage('<command> [options]')
     .version(pkg.version)
     .option('-d, --debug', '启用调试模式', false)
+
+  program.command('init [projectName]').option('-f, --force', '是否初始化项目').action(init)
 
   program.on('option:debug', () => {
     process.env.LOG_LEVEL = 'verbose'
