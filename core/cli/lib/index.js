@@ -1,19 +1,22 @@
 'use strict'
 
-import constant from './constant.js'
-import semver from 'semver'
+import { getNpmSemverVersions, log } from '@lecuil-cli/utils'
 import colors from 'colors'
-import { getNpmInfo, getNpmSemverVersions, getNpmVersions, log } from '@lecuil-cli/utils'
-import rootCheck from 'root-check'
-import { homedir } from 'os'
+import { Command } from 'commander'
+import dotenv from 'dotenv'
 import { existsSync } from 'fs'
 import minimist from 'minimist'
-import dotenv from 'dotenv'
+import { homedir } from 'os'
 import path from 'path'
+import rootCheck from 'root-check'
+import semver from 'semver'
+import constant from './constant.js'
 
 const pkg = (await import('../package.json', { with: { type: 'json' } })).default
 const userHome = homedir()
 const { DEFAULT_CLI_HOME } = constant
+
+const program = new Command()
 
 const checkPkgVersion = () => {
   log.info('cli', pkg.version)
@@ -84,15 +87,44 @@ const checkGlobalUpdate = async () => {
   }
 }
 
-const core = () => {
+const registerCommand = () => {
+  program
+    .name(Object.keys(pkg.bin)[0])
+    .usage('<command> [options]')
+    .version(pkg.version)
+    .option('-d, --debug', '启用调试模式', false)
+
+  program.on('option:debug', () => {
+    process.env.LOG_LEVEL = 'verbose'
+    log.level = process.env.LOG_LEVEL
+  })
+
+  program.on('command:*', (obj) => {
+    const availableCommands = program.commands.map((cmd) => cmd.name())
+    console.log(colors.red(`未知命令：${obj[0]}`))
+    if (availableCommands.length > 0) {
+      console.log(colors.green(`可用命令：${availableCommands.join(',')}`))
+    }
+  })
+
+  program.parse(process.argv)
+
+  if (program.args && program.args.length < 1) {
+    program.outputHelp()
+    console.log()
+  }
+}
+
+const core = async () => {
   try {
     checkPkgVersion()
     checkNodeVersion()
     checkRoot()
     checkUserHome()
-    checkInputArgs()
+    // checkInputArgs()
     checkEnv()
-    checkGlobalUpdate()
+    await checkGlobalUpdate()
+    registerCommand()
   } catch (e) {
     log.error(e.message)
   }
