@@ -57,8 +57,7 @@ export class Package {
    * 获取入口文件位置
    */
   async getRootPath() {
-    const dir = await packageDirectory()
-    console.log(dir, 'dir')
+    const dir = await packageDirectory({ cwd: this.targetPath })
     if (!dir) return nul
     const fileUrl = pathToFileURL(path.resolve(dir, 'package.json')).href
     const pkgFile = (await import(fileUrl, { with: { type: 'json' } })).default
