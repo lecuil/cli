@@ -3,6 +3,8 @@ import { isObject } from '../data/index.js'
 import { packageDirectory } from 'package-directory'
 import { pathToFileURL } from 'url'
 import { formatPath } from '../path/index.js'
+import npminstall from 'npminstall'
+import { getDefaultRegistry } from '../npm/index.js'
 
 export class Package {
   /**
@@ -11,7 +13,7 @@ export class Package {
   targetPath = ''
 
   /**
-   * Package存储路径
+   * Package缓存路径
    */
   storePath = ''
 
@@ -46,7 +48,19 @@ export class Package {
   /**
    * 安装
    */
-  install() {}
+  install() {
+    return npminstall({
+      root: this.targetPath,
+      storeDir: this.storePath,
+      registry: getDefaultRegistry(),
+      pkgs: [
+        {
+          name: this.name,
+          version: this.version,
+        },
+      ],
+    })
+  }
 
   /**
    * 更新
@@ -58,13 +72,12 @@ export class Package {
    */
   async getRootPath() {
     const dir = await packageDirectory({ cwd: this.targetPath })
-    if (!dir) return nul
+    if (!dir) return null
     const fileUrl = pathToFileURL(path.resolve(dir, 'package.json')).href
     const pkgFile = (await import(fileUrl, { with: { type: 'json' } })).default
     if (pkgFile && pkgFile.main) {
       // 兼容路径格式
       return formatPath(path.resolve(dir, pkgFile.main))
     }
-    console.log(pkgFile, 'pkgFile')
   }
 }

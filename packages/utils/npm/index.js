@@ -27,7 +27,7 @@ export const getNpmInfo = async (npmName, registry) => {
  * @param {*} isOriginal 是否为原始源
  * @returns
  */
-const getDefaultRegistry = (isOriginal = false) => {
+export const getDefaultRegistry = (isOriginal = false) => {
   return isOriginal ? 'https://registry.npmjs.org' : 'https://registry.npmmirror.com'
 }
 
