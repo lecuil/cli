@@ -40,9 +40,6 @@ importers:
       import-local:
         specifier: ^3.2.0
         version: 3.2.0
-      minimist:
-        specifier: ^1.2.8
-        version: 1.2.8
       npmlog:
         specifier: ^7.0.1
         version: 7.0.1
@@ -65,6 +62,9 @@ importers:
       npmlog:
         specifier: ^7.0.1
         version: 7.0.1
+      package-directory:
+        specifier: ^8.1.0
+        version: 8.1.0
       semver:
         specifier: ^7.7.2
         version: 7.7.2
@@ -862,6 +862,10 @@ packages:
     resolution: {integrity: sha512-YsGpe3WHLK8ZYi4tWDg2Jy3ebRz2rXowDxnld4bkQB00cc/1Zw9AWnC0i9ztDJitivtQvaI9KaLyKrc+hBW0yg==}
     engines: {node: '>=8'}
 
+  find-up-simple@1.0.1:
+    resolution: {integrity: sha512-afd4O7zpqHeRyg4PfDQsXmlDe2PfdHtJt6Akt8jOWaApLOZk5JXs6VMR29lz03pRe9mpykrRCYIYxaJYcfpncQ==}
+    engines: {node: '>=18'}
+
   find-up@2.1.0:
     resolution: {integrity: sha512-NWzkk0jSJtTt08+FBFMvXoeZnOJD+jTtsRmBYbAIzJdX6l7dLgR7CTubCM5/eDdPUBvLCeVasP1brfVR/9/EZQ==}
     engines: {node: '>=4'}
@@ -1638,6 +1642,10 @@ packages:
   p-waterfall@2.1.1:
     resolution: {integrity: sha512-RRTnDb2TBG/epPRI2yYXsimO0v3BXC8Yd3ogr1545IaqKK17VGhbWVeGGN+XfCm/08OK8635nH31c8bATkHuSw==}
     engines: {node: '>=8'}
+
+  package-directory@8.1.0:
+    resolution: {integrity: sha512-qHKRW0pw3lYdZMQVkjDBqh8HlamH/LCww2PH7OWEp4Qrt3SFeYMNpnJrQzlSnGrDD5zGR51XqBh7FnNCdVNEHA==}
+    engines: {node: '>=18'}
 
   package-json-from-dist@1.0.1:
     resolution: {integrity: sha512-UEZIS3/by4OC8vL3P2dTXRETpebLI2NiI5vIrjaD/5UtrkFX/tNbwjTSRAGC/+7CAo2pIcBaRgWmcBBHcsaCIw==}
@@ -3154,6 +3162,8 @@ snapshots:
     dependencies:
       to-regex-range: 5.0.1
 
+  find-up-simple@1.0.1: {}
+
   find-up@2.1.0:
     dependencies:
       locate-path: 2.0.0
@@ -4108,6 +4118,10 @@ snapshots:
   p-waterfall@2.1.1:
     dependencies:
       p-reduce: 2.1.0
+
+  package-directory@8.1.0:
+    dependencies:
+      find-up-simple: 1.0.1
 
   package-json-from-dist@1.0.1: {}
 

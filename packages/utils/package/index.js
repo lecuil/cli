@@ -1,4 +1,8 @@
+import path from 'path'
 import { isObject } from '../data/index.js'
+import { packageDirectory } from 'package-directory'
+import { pathToFileURL } from 'url'
+import { formatPath } from '../path/index.js'
 
 export class Package {
   /**
@@ -52,5 +56,16 @@ export class Package {
   /**
    * 获取入口文件位置
    */
-  getRootPath() {}
+  async getRootPath() {
+    const dir = await packageDirectory()
+    console.log(dir, 'dir')
+    if (!dir) return nul
+    const fileUrl = pathToFileURL(path.resolve(dir, 'package.json')).href
+    const pkgFile = (await import(fileUrl, { with: { type: 'json' } })).default
+    if (pkgFile && pkgFile.main) {
+      // 兼容路径格式
+      return formatPath(path.resolve(dir, pkgFile.main))
+    }
+    console.log(pkgFile, 'pkgFile')
+  }
 }
