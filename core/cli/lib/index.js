@@ -1,5 +1,5 @@
-import { init } from '@lecuil-cli/init'
-import { log } from '@lecuil-cli/utils'
+// import { init } from '@lecuil-cli/init'
+import { log, exec } from '@lecuil-cli/utils'
 import colors from 'colors'
 import { Command } from 'commander'
 import { prepare } from './prepare.js'
@@ -19,7 +19,7 @@ const registerCommand = () => {
     .option('-d, --debug', '启用调试模式', false)
     .option('--tp, --targetPath <targetPath>', '是否指定本地文件路径', '')
 
-  program.command('init [projectName]').option('-f, --force', '是否初始化项目').action(init)
+  program.command('init [projectName]').option('-f, --force', '是否初始化项目').action(exec)
 
   program.on('option:debug', () => {
     process.env.LOG_LEVEL = 'verbose'
