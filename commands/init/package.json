@@ -7,6 +7,9 @@
   "homepage": "https://github.com/lecuil/cli#readme",
   "license": "ISC",
   "main": "lib/index.js",
+  "exports": {
+    ".": "./dist/index.js"
+  },
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -22,9 +25,18 @@
     "url": "git+https://github.com/lecuil/cli.git"
   },
   "scripts": {
+    "dev": "tsup --watch",
+    "build": "tsup",
     "test": "node ./__tests__/@lecuil-cli/init.test.js"
   },
   "bugs": {
     "url": "https://github.com/lecuil/cli/issues"
+  },
+  "devDependencies": {
+    "tsup": "^8.5.0",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "commander": "^14.0.0"
   }
 }
