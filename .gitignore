@@ -4,5 +4,7 @@ node_modules/
 .vscode/
 .env
 
+dist/
+
 lerna-debug.log*
 lerna-debug.log

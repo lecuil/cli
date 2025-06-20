@@ -5,10 +5,10 @@
   "author": "facil <13183817938@163.com>",
   "homepage": "",
   "license": "ISC",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
   "type": "module",
   "bin": {
-    "cli-dev": "bin/index.ts"
+    "cli-dev": "./dist/bin/index.js"
   },
   "directories": {
     "lib": "lib",
@@ -21,6 +21,7 @@
     "access": "public"
   },
   "scripts": {
+    "build": "tsup",
     "test": "node ./__tests__/core.test.js",
     "dev": "cli-dev"
   },
@@ -32,7 +33,6 @@
     "dotenv": "^16.5.0",
     "es-toolkit": "^1.39.3",
     "import-local": "^3.2.0",
-    "npmlog": "^7.0.1",
     "root-check": "^2.0.0",
     "semver": "^7.7.2"
   },
@@ -40,6 +40,7 @@
   "devDependencies": {
     "@types/npmlog": "^7.0.0",
     "@types/semver": "^7.7.0",
+    "tsup": "^8.5.0",
     "typescript": "^5.8.3"
   }
 }
