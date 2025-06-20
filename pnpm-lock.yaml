@@ -71,6 +71,16 @@ importers:
       semver:
         specifier: ^7.7.2
         version: 7.7.2
+    devDependencies:
+      '@types/npmlog':
+        specifier: ^7.0.0
+        version: 7.0.0
+      '@types/semver':
+        specifier: ^7.7.0
+        version: 7.7.0
+      typescript:
+        specifier: ^5.8.3
+        version: 5.8.3
 
 packages:
 
@@ -428,6 +438,9 @@ packages:
 
   '@types/npmlog@7.0.0':
     resolution: {integrity: sha512-hJWbrKFvxKyWwSUXjZMYTINsSOY6IclhvGOZ97M8ac2tmR9hMwmTnYaMdpGhvju9ctWLTPhCS+eLfQNluiEjQQ==}
+
+  '@types/semver@7.7.0':
+    resolution: {integrity: sha512-k107IF4+Xr7UHjwDc7Cfd6PRQfbdkiRabXGRjo07b4WyPahFBZCZ1sE+BNxYIJPPg73UkfOsVOLwqVc/6ETrIA==}
 
   '@yarnpkg/lockfile@1.1.0':
     resolution: {integrity: sha512-GpSwvyXOcOOlV70vbnzjj4fW5xW/FdUF6nQEt1ENy7m4ZCczi1+/buVUPAqmGfqznsORNFzUMjctTIp8a9tuCQ==}
@@ -3320,6 +3333,8 @@ snapshots:
   '@types/npmlog@7.0.0':
     dependencies:
       '@types/node': 24.0.3
+
+  '@types/semver@7.7.0': {}
 
   '@yarnpkg/lockfile@1.1.0': {}
 

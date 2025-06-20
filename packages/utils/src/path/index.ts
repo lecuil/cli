@@ -1,6 +1,11 @@
 import path from 'path'
 
-export const formatPath = (p) => {
+/**
+ * 格式化兼容路径
+ * @param p
+ * @returns
+ */
+export const formatPath = (p: string) => {
   if (!p && typeof p !== 'string') return p
   const sep = path.sep
   console.log(sep)

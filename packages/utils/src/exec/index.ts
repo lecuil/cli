@@ -1,13 +1,13 @@
 import path from 'path'
-import log from '../log/index.js'
-import { Package } from '../package/index.js'
 import { pathToFileURL } from 'url'
+import log from '~utils/log/index.js'
+import { Package } from '~utils/package'
 
 const CACHE_DIR = '.lecuil_cli_cache'
 
-export const exec = async (...args) => {
+export const exec = async (...args: unknown[]) => {
   let targetPath = process.env.CLI_TARGET_PATH
-  const homePath = process.env.CLI_HOME_PATH
+  const homePath = process.env.CLI_HOME_PATH || ''
   let storePath = ''
   let pkg = null
   log.verbose('targetPath', targetPath)
@@ -43,6 +43,7 @@ export const exec = async (...args) => {
 
     const rootFile = await pkg.getRootPath()
     log.verbose('rootFile', rootFile)
+    if (!rootFile) return
     const fn = await import(pathToFileURL(rootFile).href)
     if (fn) {
       fn.default(...args)

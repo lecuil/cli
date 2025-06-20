@@ -3,8 +3,16 @@ import { isObject } from '../data/index.js'
 import { packageDirectory } from 'package-directory'
 import { pathToFileURL } from 'url'
 import { formatPath } from '../path/index.js'
+// @ts-ignore no types for npminstall
 import npminstall from 'npminstall'
-import { getDefaultRegistry } from '../npm/index.js'
+import { getDefaultRegistry } from '~utils/npm/index.ts'
+
+export interface PackageOptions {
+  targetPath: string
+  storePath?: string
+  name: string
+  version: string
+}
 
 export class Package {
   /**
@@ -27,7 +35,7 @@ export class Package {
    */
   version = ''
 
-  constructor(options) {
+  constructor(options: PackageOptions) {
     if (!options) {
       throw new Error('Package构造函数参数不能为空')
     }
@@ -35,7 +43,7 @@ export class Package {
       throw new Error('Package构造函数参数必须为对象')
     }
     this.targetPath = options.targetPath
-    this.storePath = options.storePath
+    this.storePath = options.storePath || ''
     this.name = options.name
     this.version = options.version
   }
@@ -43,7 +51,9 @@ export class Package {
   /**
    * 判断当前Package是否存在
    */
-  exists() {}
+  exists() {
+    return true
+  }
 
   /**
    * 安装

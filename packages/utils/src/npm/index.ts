@@ -3,11 +3,11 @@ import semver from 'semver'
 
 /**
  * 获取npm信息
- * @param {*} npmName 包名
- * @param {*} registry 源
+ * @param npmName 包名
+ * @param registry 源
  * @returns
  */
-export const getNpmInfo = async (npmName, registry) => {
+export const getNpmInfo = async (npmName: string, registry: string) => {
   if (!npmName) return null
   const registryUrl = registry || getDefaultRegistry(true)
   const npmInfoUrl = new URL(registryUrl)
@@ -24,7 +24,7 @@ export const getNpmInfo = async (npmName, registry) => {
 
 /**
  * 获取默认源
- * @param {*} isOriginal 是否为原始源
+ * @param isOriginal 是否为原始源
  * @returns
  */
 export const getDefaultRegistry = (isOriginal = false) => {
@@ -33,11 +33,11 @@ export const getDefaultRegistry = (isOriginal = false) => {
 
 /**
  * 获取npm版本
- * @param {*} npmName 包名
- * @param {*} registry 源
+ * @param npmName 包名
+ * @param registry 源
  * @returns
  */
-export const getNpmVersions = async (npmName, registry) => {
+export const getNpmVersions = async (npmName: string, registry: string) => {
   const data = await getNpmInfo(npmName, registry)
   if (!data) return []
   return Object.keys(data.versions)
@@ -45,22 +45,24 @@ export const getNpmVersions = async (npmName, registry) => {
 
 /**
  * 获取semver版本
- * @param {*} baseVersion 基础版本
- * @param {*} versions 版本列表
+ * @param baseVersion 基础版本
+ * @param versions 版本列表
  * @returns
  */
-const getSemverVersions = (baseVersion, versions) => {
-  return versions.filter((version) => semver.satisfies(version, `^${baseVersion}`)).sort((a, b) => semver.gt(b, a))
+const getSemverVersions = (baseVersion: string, versions: string[]) => {
+  return versions
+    .filter((version) => semver.satisfies(version, `^${baseVersion}`))
+    .sort((a, b) => Number(semver.gt(b, a)))
 }
 
 /**
  * 获取npm semver版本
- * @param {*} baseVersion 基础版本
- * @param {*} npmName 包名
- * @param {*} registry 源
+ * @param baseVersion 基础版本
+ * @param npmName 包名
+ * @param registry 源
  * @returns
  */
-export const getNpmSemverVersions = async (baseVersion, npmName, registry) => {
+export const getNpmSemverVersions = async (baseVersion: string, npmName: string, registry: string) => {
   const versions = await getNpmVersions(npmName, registry)
   const newVersions = getSemverVersions(baseVersion, versions)
   if (newVersions && newVersions.length > 0) {
