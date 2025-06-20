@@ -7,6 +7,9 @@
   "homepage": "",
   "license": "ISC",
   "main": "/src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
   "directories": {
     "lib": "lib",
     "test": "__tests__"

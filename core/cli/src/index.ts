@@ -1,4 +1,3 @@
-// import { init } from '@lecuil-cli/init'
 import { log, exec } from '@lecuil-cli/utils'
 import colors from 'colors'
 import { Command } from 'commander'
@@ -13,7 +12,7 @@ const program = new Command()
  */
 const registerCommand = () => {
   program
-    .name(Object.keys(pkg.bin)[0])
+    .name(Object.keys(pkg.bin)[0]!)
     .usage('<command> [options]')
     .version(pkg.version)
     .option('-d, --debug', '启用调试模式', false)
@@ -51,7 +50,7 @@ const core = async () => {
     prepare()
     registerCommand()
   } catch (e) {
-    log.error(e.message)
+    log.error('cli', (e as Error).message)
   }
 }
 

@@ -12,6 +12,11 @@ const pkg = (await import('@lecuil-cli/init/package.json', { with: { type: 'json
 const userHome = homedir()
 const { DEFAULT_CLI_HOME } = constant
 
+interface CliConfig {
+  home: string
+  cliHome?: string
+}
+
 /**
  * 检查版本
  */
@@ -61,7 +66,7 @@ const checkEnv = () => {
  * 创建默认配置
  */
 const createDefaultConfig = () => {
-  const cliConfig = {
+  const cliConfig: CliConfig = {
     home: userHome,
   }
   if (process.env.CLI_HOME) {

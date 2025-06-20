@@ -2,7 +2,7 @@
 
 import importLocal from 'import-local'
 import npmlog from 'npmlog'
-import main from '../lib/index.js'
+import main from '../src/index.js'
 import { fileURLToPath } from 'url'
 
 const __filename = fileURLToPath(import.meta.url)
