@@ -7,7 +7,7 @@ import { formatPath } from '../path/index.js'
 import npminstall from 'npminstall'
 import { getDefaultRegistry, getNpmLatestVersion } from '~utils/npm/index.ts'
 import { existsSync } from 'fs'
-import log from '~utils/log/index.js'
+import fse from 'fs-extra'
 
 export interface PackageOptions {
   targetPath: string
@@ -57,10 +57,17 @@ export class Package {
     return path.resolve(this.storePath, `_${this.cacheFilePrefix}@${this.version}@${this.name}`)
   }
 
+  getVersionPath(version: string) {
+    return path.resolve(this.storePath, `_${this.cacheFilePrefix}@${version}@${this.name}`)
+  }
+
   /**
    * 准备函数，获取最新的版本号
    */
   async prepare() {
+    if (this.storePath && !existsSync(this.storePath)) {
+      fse.mkdirpSync(this.storePath)
+    }
     if (this.version === 'latest') {
       const version = await getNpmLatestVersion(this.name, getDefaultRegistry())
       if (version) this.version = version
@@ -100,7 +107,21 @@ export class Package {
   /**
    * 更新
    */
-  update() {}
+  async update() {
+    await this.prepare()
+    const latestVersion = await getNpmLatestVersion(this.name, getDefaultRegistry())
+    if (!latestVersion) return
+    const latestPath = this.getVersionPath(latestVersion)
+    if (!existsSync(latestPath)) {
+      await npminstall({
+        root: this.targetPath,
+        storeDir: this.storePath,
+        registry: getDefaultRegistry(),
+        pkgs: [{ name: this.name, version: latestVersion }],
+      })
+      this.version = latestPath
+    }
+  }
 
   /**
    * 获取入口文件位置

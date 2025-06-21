@@ -29,11 +29,9 @@ export const exec = async (...args: unknown[]) => {
     console.log(isExist, 'isExist')
 
     if (isExist) {
-      // pkg.update()
-      console.log('更新')
+      await pkg.update()
     } else {
-      console.log('安装')
-      // await pkg.install()
+      await pkg.install()
     }
     const mainUrl = await pkg.getRootPath()
     console.log(mainUrl, 'mainUrl')
