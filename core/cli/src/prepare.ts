@@ -8,7 +8,7 @@ import rootCheck from 'root-check'
 import semver from 'semver'
 import constant from './constant.js'
 
-const pkg = (await import('@lecuil-cli/init/package.json', { with: { type: 'json' } })).default
+const pkg = (await import('../package.json', { with: { type: 'json' } })).default
 const userHome = homedir()
 const { DEFAULT_CLI_HOME } = constant
 
@@ -85,7 +85,7 @@ const checkGlobalUpdate = async () => {
   const npmName = pkg.name
   const newVersion = await getNpmSemverVersions(curVersion, npmName)
   if (newVersion && semver.gt(newVersion, curVersion)) {
-    log.warn(colors.yellow(`当前版本为 ${curVersion}, 最新版本为 ${newVersion}`))
+    log.warn('cli', colors.yellow(`当前版本为 ${curVersion}, 最新版本为 ${newVersion}`))
   }
 }
 

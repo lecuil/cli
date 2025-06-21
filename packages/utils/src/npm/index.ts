@@ -62,11 +62,16 @@ const getSemverVersions = (baseVersion: string, versions: string[]) => {
  * @param registry 源
  * @returns
  */
-export const getNpmSemverVersions = async (baseVersion: string, npmName: string, registry: string) => {
+export const getNpmSemverVersions = async (baseVersion: string, npmName: string, registry = getDefaultRegistry()) => {
   const versions = await getNpmVersions(npmName, registry)
   const newVersions = getSemverVersions(baseVersion, versions)
   if (newVersions && newVersions.length > 0) {
     return newVersions[0]
   }
   return null
+}
+
+export const getNpmLatestVersion = async (npmName: string, registry = getDefaultRegistry()) => {
+  const versions = (await getNpmVersions(npmName, registry)).sort((a, b) => Number(semver.gt(b, a)))
+  return versions[0]
 }

@@ -5,7 +5,7 @@
   "author": "facil <13183817938@163.com>",
   "homepage": "",
   "license": "ISC",
-  "main": "dist/index.js",
+  "main": "dist/src/index.js",
   "type": "module",
   "bin": {
     "cli-dev": "./dist/bin/index.js"
@@ -23,7 +23,7 @@
   "scripts": {
     "build": "tsup",
     "test": "node ./__tests__/core.test.js",
-    "dev": "cli-dev"
+    "dev": "tsup --watch"
   },
   "dependencies": {
     "@lecuil-cli/init": "workspace:*",

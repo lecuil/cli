@@ -17,27 +17,30 @@ export const exec = async (...args: unknown[]) => {
     // 生成缓存路径
     targetPath = path.resolve(homePath, CACHE_DIR)
     storePath = path.resolve(targetPath, 'node_modules')
-    log.verbose('targetPath', targetPath)
-    log.verbose('storePath', storePath)
 
     pkg = new Package({
       targetPath,
       storePath,
-      name: '@lecuil-cli/init',
+      name: '@lecuil-cli/core',
       version: 'latest',
     })
 
-    if (pkg.exists()) {
-      pkg.update()
+    const isExist = await pkg.exists()
+    console.log(isExist, 'isExist')
+
+    if (isExist) {
+      // pkg.update()
+      console.log('更新')
     } else {
-      await pkg.install()
+      console.log('安装')
+      // await pkg.install()
     }
     const mainUrl = await pkg.getRootPath()
     console.log(mainUrl, 'mainUrl')
   } else {
     pkg = new Package({
       targetPath,
-      name: '@lecuil-cli/init',
+      name: '@lecuil-cli/core',
       version: 'latest',
     })
 
