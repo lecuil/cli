@@ -29,8 +29,10 @@ export const exec = async (...args: unknown[]) => {
     console.log(isExist, 'isExist')
 
     if (isExist) {
+      console.log('更新')
       await pkg.update()
     } else {
+      console.log('安装')
       await pkg.install()
     }
     const mainUrl = await pkg.getRootPath()
@@ -41,13 +43,12 @@ export const exec = async (...args: unknown[]) => {
       name: '@lecuil-cli/core',
       version: 'latest',
     })
-
-    const rootFile = await pkg.getRootPath()
-    log.verbose('rootFile', rootFile)
-    if (!rootFile) return
-    const fn = await import(pathToFileURL(rootFile).href)
-    if (fn) {
-      fn.default(...args)
-    }
+  }
+  const rootFile = await pkg.getRootPath()
+  log.verbose('rootFile', rootFile)
+  if (!rootFile) return
+  const fn = await import(pathToFileURL(rootFile).href)
+  if (fn) {
+    fn.default(...args)
   }
 }
