@@ -47,8 +47,13 @@ export const exec = async (...args: unknown[]) => {
   log.verbose('rootFile', rootFile)
   if (!rootFile) return
   const fn = await import(pathToFileURL(rootFile).href)
+  if (!fn && !fn.default) {
+    log.error('Err', '模块不存在')
+  }
 
-  if (fn) {
+  try {
     fn.default(...args)
+  } catch (e) {
+    log.error('Err', (e as Error).message)
   }
 }
