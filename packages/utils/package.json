@@ -26,6 +26,8 @@
     "test": "node ./__tests__/utils.test.js"
   },
   "dependencies": {
+    "colors": "^1.4.0",
+    "commander": "^14.0.0",
     "es-toolkit": "^1.39.3",
     "fs-extra": "^11.3.0",
     "npminstall": "^4.9.1",

@@ -26,17 +26,16 @@ export const exec = async (...args: unknown[]) => {
     })
 
     const isExist = await pkg.exists()
-    console.log(isExist, 'isExist')
 
     if (isExist) {
-      console.log('更新')
+      log.verbose('exec', '更新')
       await pkg.update()
     } else {
-      console.log('安装')
+      log.verbose('exec', '安装')
       await pkg.install()
     }
     const mainUrl = await pkg.getRootPath()
-    console.log(mainUrl, 'mainUrl')
+    log.verbose('mainUrl', mainUrl)
   } else {
     pkg = new Package({
       targetPath,
@@ -48,6 +47,7 @@ export const exec = async (...args: unknown[]) => {
   log.verbose('rootFile', rootFile)
   if (!rootFile) return
   const fn = await import(pathToFileURL(rootFile).href)
+
   if (fn) {
     fn.default(...args)
   }

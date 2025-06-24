@@ -25,17 +25,6 @@ const checkPkgVersion = () => {
 }
 
 /**
- * 检查 NodeJS 版本
- */
-const checkNodeVersion = () => {
-  const curVersion = process.version
-  const lowestVersion = constant.LOWEST_NODE_VERSION
-  if (!semver.gte(curVersion, lowestVersion)) {
-    throw new Error(colors.red(`lecuil-cli 需要安装 v${lowestVersion} 以上版本的 Node.js`))
-  }
-}
-
-/**
  * 检查是否使用 root 账户
  */
 const checkRoot = () => {
@@ -91,7 +80,6 @@ const checkGlobalUpdate = async () => {
 
 export const prepare = async () => {
   checkPkgVersion()
-  checkNodeVersion()
   checkRoot()
   checkUserHome()
   checkEnv()

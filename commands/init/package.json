@@ -6,7 +6,7 @@
   "author": "SJYI <13183817938@163.com>",
   "homepage": "https://github.com/lecuil/cli#readme",
   "license": "ISC",
-  "main": "lib/index.js",
+  "main": "./dist/index.js",
   "exports": {
     ".": "./dist/index.js"
   },
@@ -37,6 +37,7 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "commander": "^14.0.0"
+    "commander": "^14.0.0",
+    "@lecuil-cli/utils": "workspace:*"
   }
 }

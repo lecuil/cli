@@ -17,6 +17,9 @@ importers:
 
   commands/init:
     dependencies:
+      '@lecuil-cli/utils':
+        specifier: workspace:*
+        version: link:../../packages/utils
       commander:
         specifier: ^14.0.0
         version: 14.0.0
@@ -73,6 +76,12 @@ importers:
 
   packages/utils:
     dependencies:
+      colors:
+        specifier: ^1.4.0
+        version: 1.4.0
+      commander:
+        specifier: ^14.0.0
+        version: 14.0.0
       es-toolkit:
         specifier: ^1.39.3
         version: 1.39.3
