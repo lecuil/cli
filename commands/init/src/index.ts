@@ -7,10 +7,16 @@ export class InitCommand extends Command {
     this.force = Boolean(this._options.force)
   }
 
-  exec(): void {}
+  exec(): void {
+    // 准备阶段
+    // 下载模板
+    // 安装模板
+  }
+
+  prepare() {}
 }
 
-const init = (...args: CommandOptions) => {
+const init = (args: CommandOptions) => {
   return new InitCommand(args)
 }
 

@@ -46,10 +46,10 @@ export class Command {
   }
 
   init() {
-    // throw new Error('init method must be implemented')
+    throw new Error('init method must be implemented')
   }
 
   exec() {
-    // throw new Error('exec method must be implemented')
+    throw new Error('exec method must be implemented')
   }
 }
