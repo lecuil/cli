@@ -2,6 +2,7 @@ import path from 'path'
 import { pathToFileURL } from 'url'
 import log from '~utils/log/index.js'
 import { Package } from '~utils/package'
+import cp from 'child_process'
 
 const CACHE_DIR = '.lecuil_cli_cache'
 
@@ -52,6 +53,19 @@ export const exec = async (...args: unknown[]) => {
   }
 
   try {
+    const code = 'console.log(123)'
+    const child = cp.spawn('node', ['-e', code], {
+      cwd: process.cwd(),
+      stdio: 'inherit',
+    })
+    child.stdout?.on('error', (e) => {
+      log.error('Err', e.message)
+      process.exit(1)
+    })
+    child.stderr?.on('exit', (e) => {
+      log.verbose('命令执行成功', e)
+      process.exit(0)
+    })
     fn.default(...args)
   } catch (e) {
     log.error('Err', (e as Error).message)
