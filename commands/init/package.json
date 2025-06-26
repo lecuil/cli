@@ -26,18 +26,20 @@
   },
   "scripts": {
     "dev": "tsup --watch",
-    "build": "tsup",
-    "test": "node ./__tests__/@lecuil-cli/init.test.js"
+    "build": "tsup"
   },
   "bugs": {
     "url": "https://github.com/lecuil/cli/issues"
   },
   "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
     "tsup": "^8.5.0",
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "@inquirer/prompts": "^7.5.3",
+    "@lecuil-cli/utils": "workspace:*",
     "commander": "^14.0.0",
-    "@lecuil-cli/utils": "workspace:*"
+    "fs-extra": "^11.3.0"
   }
 }
