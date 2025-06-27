@@ -1,7 +1,8 @@
 import { Command, log, type CommandOptions } from '@lecuil-cli/utils'
 import fs from 'fs'
-import { confirm } from '@inquirer/prompts'
+import { confirm, input, select } from '@inquirer/prompts'
 import fse from 'fs-extra'
+import { INIT_OPTIONS, INIT_TYPE } from './constants'
 
 export class InitCommand extends Command {
   force: boolean = false
@@ -13,6 +14,7 @@ export class InitCommand extends Command {
   async exec() {
     try {
       // 准备阶段
+      log.verbose('cli', '准备阶段')
       await this.prepare()
 
       // 下载模板
@@ -22,8 +24,13 @@ export class InitCommand extends Command {
     }
   }
 
+  /**
+   * 初始化准备阶段
+   * @returns
+   */
   async prepare() {
     const localPath = process.cwd()
+    log.verbose('localPath', localPath)
     if (!this.isDirEmpty(localPath)) {
       let isContinue = false
       if (!this.force) {
@@ -34,7 +41,6 @@ export class InitCommand extends Command {
         if (!isContinue) return
       }
 
-      log.verbose('localPath', localPath)
       if (isContinue || this.force) {
         const confirmDelete = await confirm({
           message: '是否确认清空当前目录？',
@@ -46,8 +52,48 @@ export class InitCommand extends Command {
       }
     }
 
-    // 选择创建项目或文件
+    return this.getProjectInfo()
+  }
+
+  /**
+   * 获取项目初始化信息
+   * @returns
+   */
+  private async getProjectInfo() {
+    const projectInfo = {}
+    const type = await select({
+      message: '请选择初始化类型',
+      choices: INIT_OPTIONS,
+    })
+    log.verbose('type', type)
     // 获取项目基本信息
+    if (type === INIT_TYPE.PROJECT) {
+      const o = {
+        projectName: await input({
+          message: '请输入项目名称',
+          default: '',
+          validate: (v) => {
+            return typeof v === 'string'
+          },
+          transformer(value, { isFinal }) {
+            return isFinal ? value : value.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()
+          },
+        }),
+        version: await input({
+          message: '请输入项目版本号',
+          default: '0.0.0',
+          validate: (v) => {
+            return typeof v === 'string'
+          },
+          transformer: (v) => {
+            return v
+          },
+        }),
+      }
+      console.log(o, 'o')
+    } else if (type === INIT_TYPE.COMPONENT) {
+    }
+    return projectInfo
   }
 
   /**
@@ -56,7 +102,7 @@ export class InitCommand extends Command {
    */
   private isDirEmpty(localPath: string) {
     const fileList = fs.readdirSync(localPath)
-    return fileList && fileList.filter((file) => !file.startsWith('.') && ['node_modules'].includes(file)).length === 0
+    return fileList && fileList.filter((file) => !file.startsWith('.') && !['node_modules'].includes(file)).length === 0
   }
 }
 
