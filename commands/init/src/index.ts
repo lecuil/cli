@@ -3,6 +3,7 @@ import fs from 'fs'
 import { confirm, input, select } from '@inquirer/prompts'
 import fse from 'fs-extra'
 import { INIT_OPTIONS, INIT_TYPE } from './constants'
+import semver from 'semver'
 
 export class InitCommand extends Command {
   force: boolean = false
@@ -73,24 +74,21 @@ export class InitCommand extends Command {
           message: '请输入项目名称',
           default: '',
           validate: (v) => {
-            return typeof v === 'string'
-          },
-          transformer(value, { isFinal }) {
-            return isFinal ? value : value.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()
+            const isValidate = /^[a-zA-Z]+([-][a-zA-Z][a-zA-Z0-9]*|[_][a-zA-Z][a-zA-Z0-9]*|[a-zA-Z0-9])*$/.test(v)
+            return isValidate || '项目名称以字母开头，只能包含字母、数字、下划线、中划线'
           },
         }),
         version: await input({
           message: '请输入项目版本号',
           default: '0.0.0',
           validate: (v) => {
-            return typeof v === 'string'
-          },
-          transformer: (v) => {
-            return v
+            const isValidate = !!semver.valid(v)
+            return isValidate || '版本号格式不正确，示例：1.0.0,v1.0.0'
           },
         }),
       }
       console.log(o, 'o')
+      console.log(semver.valid(o.version), 'version')
     } else if (type === INIT_TYPE.COMPONENT) {
     }
     return projectInfo

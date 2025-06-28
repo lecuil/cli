@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",
+    "@types/semver": "^7.7.0",
     "tsup": "^8.5.0",
     "typescript": "^5.8.3"
   },
@@ -40,6 +41,7 @@
     "@inquirer/prompts": "^7.5.3",
     "@lecuil-cli/utils": "workspace:*",
     "commander": "^14.0.0",
-    "fs-extra": "^11.3.0"
+    "fs-extra": "^11.3.0",
+    "semver": "^7.7.2"
   }
 }
