@@ -2,11 +2,17 @@ import { Command, log, type CommandOptions } from '@lecuil-cli/utils'
 import fs from 'fs'
 import { confirm, input, select } from '@inquirer/prompts'
 import fse from 'fs-extra'
-import { INIT_OPTIONS, INIT_TYPE } from './constants'
+import { FRAMEWORKS, INIT_OPTIONS, INIT_TYPE, UN_COPY_FILES } from './constants'
 import semver from 'semver'
+import type { ProjectInfo } from './type'
+import { fileURLToPath } from 'url'
+import path from 'path'
+import { cwd } from 'process'
+import { copy } from './utils'
 
 export class InitCommand extends Command {
   force: boolean = false
+  projectInfo: ProjectInfo | null = null
 
   init(): void {
     this.force = Boolean(this._options.force)
@@ -16,7 +22,12 @@ export class InitCommand extends Command {
     try {
       // 准备阶段
       log.verbose('cli', '准备阶段')
-      await this.prepare()
+      const projectInfo = await this.prepare()
+      if (projectInfo) {
+        log.verbose('projectInfo', projectInfo)
+        this.projectInfo = projectInfo
+        this.downloadTemplate()
+      }
 
       // 下载模板
       // 安装模板
@@ -32,26 +43,6 @@ export class InitCommand extends Command {
   async prepare() {
     const localPath = process.cwd()
     log.verbose('localPath', localPath)
-    if (!this.isDirEmpty(localPath)) {
-      let isContinue = false
-      if (!this.force) {
-        isContinue = await confirm({
-          message: '当前目录不为空，是否继续？',
-          default: false,
-        })
-        if (!isContinue) return
-      }
-
-      if (isContinue || this.force) {
-        const confirmDelete = await confirm({
-          message: '是否确认清空当前目录？',
-          default: false,
-        })
-        if (confirmDelete) {
-          fse.emptyDirSync(localPath)
-        }
-      }
-    }
 
     return this.getProjectInfo()
   }
@@ -61,7 +52,8 @@ export class InitCommand extends Command {
    * @returns
    */
   private async getProjectInfo() {
-    const projectInfo = {}
+    let targetDir = ''
+    const projectInfo = {} as ProjectInfo
     const type = await select({
       message: '请选择初始化类型',
       choices: INIT_OPTIONS,
@@ -69,15 +61,38 @@ export class InitCommand extends Command {
     log.verbose('type', type)
     // 获取项目基本信息
     if (type === INIT_TYPE.PROJECT) {
+      targetDir = await input({
+        message: '请输入项目名称',
+        default: 'lecuil-project',
+        validate: (v) => {
+          const isValidate = /^[a-zA-Z]+([-][a-zA-Z][a-zA-Z0-9]*|[_][a-zA-Z][a-zA-Z0-9]*|[a-zA-Z0-9])*$/.test(v)
+          return isValidate || '项目名称以字母开头，只能包含字母、数字、下划线、中划线'
+        },
+      })
+
+      if (fs.existsSync(targetDir) && !this.isDirEmpty(targetDir)) {
+        const action = await select({
+          message: '当前目录不为空，请选择操作',
+          choices: [
+            {
+              name: '清空目录',
+              value: 'clear',
+            },
+            {
+              name: '取消',
+              value: 'cancel',
+            },
+          ],
+          default: this.force ? 'clear' : 'cancel',
+        })
+        if (action === 'clear') {
+          fse.emptyDirSync(targetDir)
+        } else if (action === 'cancel') {
+          process.exit(0)
+        }
+      }
+
       const o = {
-        projectName: await input({
-          message: '请输入项目名称',
-          default: '',
-          validate: (v) => {
-            const isValidate = /^[a-zA-Z]+([-][a-zA-Z][a-zA-Z0-9]*|[_][a-zA-Z][a-zA-Z0-9]*|[a-zA-Z0-9])*$/.test(v)
-            return isValidate || '项目名称以字母开头，只能包含字母、数字、下划线、中划线'
-          },
-        }),
         version: await input({
           message: '请输入项目版本号',
           default: '0.0.0',
@@ -86,9 +101,37 @@ export class InitCommand extends Command {
             return isValidate || '版本号格式不正确，示例：1.0.0,v1.0.0'
           },
         }),
+        framework: await select({
+          message: '请选择框架',
+          choices: FRAMEWORKS,
+        }),
       }
-      console.log(o, 'o')
-      console.log(semver.valid(o.version), 'version')
+
+      const root = path.join(cwd(), targetDir)
+      log.verbose('root', root)
+      fs.mkdirSync(root, { recursive: true })
+
+      const write = (file: string, content?: string) => {
+        const targetPath = path.join(root, file)
+        if (content) {
+          fs.writeFileSync(targetPath, content)
+        } else {
+          copy(path.join(templateDir, file), targetPath)
+        }
+      }
+
+      const templateDir = path.resolve(fileURLToPath(import.meta.url), '../../../../templates', o.framework)
+
+      const files = fs.readdirSync(templateDir)
+      for (const file of files.filter((f) => !UN_COPY_FILES.has(f))) {
+        write(file)
+      }
+
+      const pkg = JSON.parse(fs.readFileSync(path.join(templateDir, 'package.json'), 'utf-8'))
+      pkg.name = targetDir
+      write('package.json', JSON.stringify(pkg, null, 2) + '\n')
+
+      Object.assign(projectInfo, { ...o, version: semver.valid(o.version) as string, projectName: targetDir })
     } else if (type === INIT_TYPE.COMPONENT) {
     }
     return projectInfo
@@ -98,9 +141,17 @@ export class InitCommand extends Command {
    * 判断当前目录是否为空
    * @returns
    */
-  private isDirEmpty(localPath: string) {
+  isDirEmpty(localPath: string) {
     const fileList = fs.readdirSync(localPath)
     return fileList && fileList.filter((file) => !file.startsWith('.') && !['node_modules'].includes(file)).length === 0
+  }
+
+  downloadTemplate() {
+    // 通过项目模板API获取模板信息
+  }
+
+  cancel() {
+    log.verbose('cancel', '取消')
   }
 }
 
