@@ -35,8 +35,8 @@ export const FRAMEWORKS = [
     value: 'vue',
     name: green('Vue'),
     variants: [
-      { value: 'vue-ts', name: greenBright('TypeScript') },
-      { value: 'vue-js', name: yellowBright('JavaScript') },
+      { value: 'vue-ant', name: magenta('Ant Design') },
+      { value: 'vue-element', name: cyan('Element Plus') },
     ],
   },
 ] as Framework[]
