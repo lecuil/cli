@@ -1,13 +1,13 @@
+import { input, select } from '@inquirer/prompts'
 import { Command, log, type CommandOptions } from '@lecuil-cli/utils'
 import fs from 'fs'
-import { confirm, input, select } from '@inquirer/prompts'
 import fse from 'fs-extra'
-import { FRAMEWORKS, INIT_OPTIONS, INIT_TYPE, UN_COPY_FILES } from './constants'
-import semver from 'semver'
-import type { ProjectInfo } from './type'
-import { fileURLToPath } from 'url'
 import path from 'path'
 import { cwd } from 'process'
+import semver from 'semver'
+import { fileURLToPath } from 'url'
+import { FRAMEWORKS, INIT_OPTIONS, INIT_TYPE, UN_COPY_FILES } from './constants'
+import type { ProjectInfo } from './type'
 import { copy } from './utils'
 
 export class InitCommand extends Command {
@@ -26,7 +26,6 @@ export class InitCommand extends Command {
       if (projectInfo) {
         log.verbose('projectInfo', projectInfo)
         this.projectInfo = projectInfo
-        this.downloadTemplate()
       }
 
       // 下载模板
@@ -107,6 +106,17 @@ export class InitCommand extends Command {
         }),
       }
 
+      const frameworkVariants = FRAMEWORKS.find((f) => f.value === o.framework)?.variants
+      if (!frameworkVariants) {
+        log.error('cli', '框架不存在')
+        process.exit(1)
+      }
+
+      const variant = await select({
+        message: '请选择版本',
+        choices: frameworkVariants,
+      })
+
       const root = path.join(cwd(), targetDir)
       log.verbose('root', root)
       fs.mkdirSync(root, { recursive: true })
@@ -120,7 +130,7 @@ export class InitCommand extends Command {
         }
       }
 
-      const templateDir = path.resolve(fileURLToPath(import.meta.url), '../../../../templates', o.framework)
+      const templateDir = path.resolve(fileURLToPath(import.meta.url), '../../../../templates', variant)
 
       const files = fs.readdirSync(templateDir)
       for (const file of files.filter((f) => !UN_COPY_FILES.has(f))) {
@@ -144,10 +154,6 @@ export class InitCommand extends Command {
   isDirEmpty(localPath: string) {
     const fileList = fs.readdirSync(localPath)
     return fileList && fileList.filter((file) => !file.startsWith('.') && !['node_modules'].includes(file)).length === 0
-  }
-
-  downloadTemplate() {
-    // 通过项目模板API获取模板信息
   }
 
   cancel() {

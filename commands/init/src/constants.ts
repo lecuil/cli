@@ -1,7 +1,7 @@
 import colors from 'picocolors'
 import type { Framework } from './type'
 
-const { green, blue } = colors
+const { green, blue, blueBright, cyan, greenBright, magenta, red, redBright, reset, yellow, yellowBright } = colors
 
 /**
  * 初始化类型
@@ -23,8 +23,22 @@ export const INIT_OPTIONS = [
  * 框架
  */
 export const FRAMEWORKS = [
-  { value: 'react-ts', name: blue('React') },
-  { value: 'vue', name: green('Vue') },
+  {
+    value: 'react',
+    name: blue('React'),
+    variants: [
+      { value: 'react-ts', name: blueBright('TypeScript') },
+      { value: 'react-js', name: yellowBright('JavaScript') },
+    ],
+  },
+  {
+    value: 'vue',
+    name: green('Vue'),
+    variants: [
+      { value: 'vue-ts', name: greenBright('TypeScript') },
+      { value: 'vue-js', name: yellowBright('JavaScript') },
+    ],
+  },
 ] as Framework[]
 
 /**

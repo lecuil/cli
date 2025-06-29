@@ -9,4 +9,5 @@ export interface ProjectInfo {
 export interface Framework {
   value: string
   name: string
+  variants: Framework[]
 }
