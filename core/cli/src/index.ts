@@ -22,7 +22,7 @@ const registerCommand = () => {
 
   program.on('option:debug', () => {
     process.env.LOG_LEVEL = 'verbose'
-    log.level = process.env.LOG_LEVEL
+    // log.level = process.env.LOG_LEVEL
   })
 
   program.on('option:targetPath', (val) => {

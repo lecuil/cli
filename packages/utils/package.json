@@ -31,14 +31,13 @@
     "es-toolkit": "^1.39.3",
     "fs-extra": "^11.3.0",
     "npminstall": "^4.9.1",
-    "npmlog": "^7.0.1",
     "package-directory": "^8.1.0",
+    "picocolors": "^1.1.1",
     "semver": "^7.7.2"
   },
   "gitHead": "f7ebb793eaf1d6d8013e315421970d7ba84c707f",
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",
-    "@types/npmlog": "^7.0.0",
     "@types/semver": "^7.7.0",
     "tsup": "^8.5.0",
     "typescript": "^5.8.3"
